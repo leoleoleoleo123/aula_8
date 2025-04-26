@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Evento Escolar</title>
+</head>
+<body>
+  <h2>Cadastro de Evento Escolar</h2>
+  <form id="eventoForm" novalidate>
+    <label>
+      Nome do Evento:
+      <input type="text" id="nomeEvento" required>
+      <div id="erroNome" class="error-message">Mínimo de 5 caracteres.</div>
+    </label><br><br>
+
+    <label>
+      Data (DD/MM/AAAA):
+      <input type="text" id="dataEvento" required placeholder="DD/MM/AAAA">
+      <div id="erroData" class="error-message">Formato de data inválido.</div>
+    </label><br><br>
+
+    <button type="submit">Cadastrar Evento</button>
+  </form>
+
+  <script>
+    const nomeEvento = document.getElementById('nomeEvento');
+    const dataEvento = document.getElementById('dataEvento');
+    const erroNome = document.getElementById('erroNome');
+    const erroData = document.getElementById('erroData');
+    const form = document.getElementById('eventoForm');
+
+    function validarNome() {
+      if (nomeEvento.value.trim().length >= 5) {
+        nomeEvento.classList.remove('invalid');
+        nomeEvento.classList.add('valid');
+        erroNome.classList.remove('active');
+        return true;
+      } else {
+        nomeEvento.classList.remove('valid');
+        nomeEvento.classList.add('invalid');
+        erroNome.classList.add('active');
+        return false;
+      }
+    }
+
+    function validarData() {
+      const regex = /^([0-2]\d|3[01])\/(0\d|1[0-2])\/\d{4}$/;
+      if (regex.test(dataEvento.value.trim())) {
+        dataEvento.classList.remove('invalid');
+        dataEvento.classList.add('valid');
+        erroData.classList.remove('active');
+        return true;
+      } else {
+        dataEvento.classList.remove('valid');
+        dataEvento.classList.add('invalid');
+        erroData.classList.add('active');
+        return false;
+      }
+    }
+
+    nomeEvento.addEventListener('input', validarNome);
+    dataEvento.addEventListener('input', validarData);
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const nomeValido = validarNome();
+      const dataValida = validarData();
+
+      if (nomeValido && dataValida) {
+        alert("Evento cadastrado com sucesso!");
+        form.reset();
+        nomeEvento.classList.remove('valid');
+        dataEvento.classList.remove('valid');
+      }
+    });
+  </script>
+</body>
+</html>
